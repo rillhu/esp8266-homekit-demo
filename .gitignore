@@ -1,52 +1,41 @@
-# Prerequisites
-*.d
-
-# Object files
+.config
 *.o
-*.ko
-*.obj
-*.elf
+*.pyc
 
-# Linker output
-*.ilk
-*.map
-*.exp
 
-# Precompiled Headers
-*.gch
-*.pch
+# Example project files
+examples/**/sdkconfig
+examples/**/sdkconfig.old
+examples/**/build
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# emacs
+.dir-locals.el
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+# eclipse setting
+.settings
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+# vscode
+.vscode
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Doc build artifacts
+docs/*/_build/
+docs/*/doxygen-warning-log.txt
+docs/*/sphinx-warning-log.txt
+docs/*/sphinx-warning-log-sanitized.txt
+docs/*/xml/
+docs/*/xml_in/
+docs/*/man/
+docs/doxygen_sqlite3.db
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# MacOS directory files
+.DS_Store
+
+# Tools
+tools/factory_nvs_gen/*.bin
+tools/factory_nvs_gen/*.csv
+
+# Patch files
+*.patch
+
+#CTags
+tags
