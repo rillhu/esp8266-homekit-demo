@@ -45,8 +45,9 @@ static bool s_on = false;
 static const char *TAG = "lightbulb";
 
 #define PWM_PERIOD (500)
-#define PWM_IO_NUM 3
+#define PWM_IO_NUM 2
 
+/*
 // pwm pin number
 const uint32_t PWM_OUT_IO_NUM = 5;
 
@@ -55,15 +56,35 @@ uint32_t duties = 250;
 
 // phase table, (phase/180)*depth
 float phase = 0;
+*/
+
+const uint32_t PWM_0_OUT_IO_NUM = 5;
+const uint32_t PWM_1_OUT_IO_NUM = 15;
+
+// pwm pin number
+const uint32_t pin_num[PWM_IO_NUM] = {
+    PWM_0_OUT_IO_NUM,
+    PWM_1_OUT_IO_NUM
+};
+
+// duties table, real_duty = duties[x]/PERIOD
+uint32_t duties[PWM_IO_NUM] = {
+    250, 250
+};
+
+// phase table, delay = (phase[x]/360)*PERIOD
+float phase[PWM_IO_NUM] = {
+    0, 0
+};
 
 /**
  * @brief initialize the lightbulb lowlevel module
  */
 void lightbulb_init(void)
 {
-    pwm_init(PWM_PERIOD, &duties, 1, &PWM_OUT_IO_NUM);
+    pwm_init(PWM_PERIOD, duties, PWM_IO_NUM, pin_num);
     //pwm_set_channel_invert(0x1 << 0);
-    pwm_set_phases(&phase);
+    pwm_set_phases(phase);
     pwm_start();
 }
 
@@ -94,7 +115,8 @@ int lightbulb_set_on(bool value)
     }
     ESP_LOGI(TAG, "lightbulb_set_on : %d", s_hsb_val.b);
     pwm_stop(0x3);
-    pwm_set_duty(0, duties * s_hsb_val.b / 100);
+    pwm_set_duty(0, duties[0] * s_hsb_val.b / 100);
+    pwm_set_duty(1, duties[1] * s_hsb_val.b / 100);
     pwm_start();
 
     return 0;
@@ -113,7 +135,8 @@ int lightbulb_set_brightness(int value)
     {
         ESP_LOGI(TAG, "lightbulb_set_brightness 222 : %d", s_hsb_val.b);
         pwm_stop(0x3);
-        pwm_set_duty(0, duties * s_hsb_val.b / 100);
+        pwm_set_duty(0, duties[0] * s_hsb_val.b / 100);
+        pwm_set_duty(1, duties[1] * s_hsb_val.b / 100);
         pwm_start();
     }
     return 0;
